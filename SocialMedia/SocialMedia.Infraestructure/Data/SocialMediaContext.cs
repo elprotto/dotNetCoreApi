@@ -16,16 +16,16 @@ namespace SocialMedia.Infraestructure.Data
         {
         }
 
-        public virtual DbSet<Comment> Comment { get; set; }
-        public virtual DbSet<Post> Post { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Comment>(entity =>
             {
-                entity.ToTable("Comment");
+                entity.ToTable("Comentario");
                 entity.HasKey(e => e.CommentId);
 
                 entity.Property(e => e.CommentId)
@@ -40,6 +40,9 @@ namespace SocialMedia.Infraestructure.Data
 
                 entity.Property(e => e.IsActive)
                     .HasColumnName("Activo");
+
+                entity.Property(e => e.PostId)
+                    .HasColumnName("IdPublicacion");
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("IdUsuario");
@@ -65,6 +68,9 @@ namespace SocialMedia.Infraestructure.Data
             {
                 entity.ToTable("Publicacion");
                 entity.HasKey(e => e.PostId);
+
+                entity.Property(e => e.PostId)
+                    .HasColumnName("IdPublicacion");
 
                 entity.Property(e => e.UserId)
                     .HasColumnName("IdUsuario");
@@ -129,9 +135,8 @@ namespace SocialMedia.Infraestructure.Data
                     .IsUnicode(false);
             });
 
-            OnModelCreatingPartial(modelBuilder);
+
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

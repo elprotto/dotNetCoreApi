@@ -33,6 +33,7 @@ namespace SocialMedia.API
 
             //Dependencies
             services.AddTransient<IPostRepository1,Post1Repository>();
+            services.AddTransient<IPostRepository, PostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
