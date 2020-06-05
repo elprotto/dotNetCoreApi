@@ -22,6 +22,9 @@ namespace SocialMedia.API
         {
             services.AddControllers();
 
+            //Connection string linked to dbContext
+            
+
             //Dependencies
             services.AddTransient<IPostRepository1,Post1Repository>();
         }
