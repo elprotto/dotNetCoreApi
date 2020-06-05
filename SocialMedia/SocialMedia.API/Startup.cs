@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialMedia.Core.Interfaces;
+using SocialMedia.Infraestructure.Data;
 using SocialMedia.Infraestructure.Repositories;
 
 namespace SocialMedia.API
@@ -23,7 +25,11 @@ namespace SocialMedia.API
             services.AddControllers();
 
             //Connection string linked to dbContext
-            
+            services.AddDbContext<SocialMediaContext>(
+                options => options.UseSqlServer(
+                        Configuration.GetConnectionString("SocialMedia")
+                    )
+                );
 
             //Dependencies
             services.AddTransient<IPostRepository1,Post1Repository>();
