@@ -15,9 +15,9 @@ namespace SocialMedia.Infraestructure.Data
         {
         }
 
-        public virtual DbSet<Comentario> Comentario { get; set; }
-        public virtual DbSet<Publicacion> Publicacion { get; set; }
-        public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Comment> Comentario { get; set; }
+        public virtual DbSet<Post> Publicacion { get; set; }
+        public virtual DbSet<User> Usuario { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,7 +30,7 @@ namespace SocialMedia.Infraestructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Comentario>(entity =>
+            modelBuilder.Entity<Comment>(entity =>
             {
                 entity.HasKey(e => e.IdComentario);
 
@@ -44,7 +44,7 @@ namespace SocialMedia.Infraestructure.Data
                 entity.Property(e => e.Fecha).HasColumnType("datetime");
 
                 entity.HasOne(d => d.IdPublicacionNavigation)
-                    .WithMany(p => p.Comentario)
+                    .WithMany(p => p.Comments)
                     .HasForeignKey(d => d.IdPublicacion)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Comentario_Publicacion");
@@ -56,7 +56,7 @@ namespace SocialMedia.Infraestructure.Data
                     .HasConstraintName("FK_Comentario_Usuario");
             });
 
-            modelBuilder.Entity<Publicacion>(entity =>
+            modelBuilder.Entity<Post>(entity =>
             {
                 entity.HasKey(e => e.IdPublicacion);
 
@@ -78,7 +78,7 @@ namespace SocialMedia.Infraestructure.Data
                     .HasConstraintName("FK_Publicacion_Usuario");
             });
 
-            modelBuilder.Entity<Usuario>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
                 entity.HasKey(e => e.IdUsuario);
 
