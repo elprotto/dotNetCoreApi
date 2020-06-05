@@ -28,14 +28,25 @@ namespace SocialMedia.Infraestructure.Data
                 entity.ToTable("Comment");
                 entity.HasKey(e => e.CommentId);
 
-                entity.Property(e => e.CommentId).ValueGeneratedNever();
+                entity.Property(e => e.CommentId)
+                    .HasColumnName("IdComentario")
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.Description)
+                    .HasColumnName("Descripcion")
                     .IsRequired()
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Date).HasColumnType("datetime");
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("Activo");
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("IdUsuario");
+
+                entity.Property(e => e.Date)
+                    .HasColumnName("Fecha")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Post)
                     .WithMany(p => p.Comments)
@@ -52,17 +63,24 @@ namespace SocialMedia.Infraestructure.Data
 
             modelBuilder.Entity<Post>(entity =>
             {
-                entity.ToTable("Post");
+                entity.ToTable("Publicacion");
                 entity.HasKey(e => e.PostId);
 
+                entity.Property(e => e.UserId)
+                    .HasColumnName("IdUsuario");
+
                 entity.Property(e => e.Description)
+                    .HasColumnName("Descripcion")
                     .IsRequired()
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Date).HasColumnType("datetime");
+                entity.Property(e => e.Date)
+                    .HasColumnName("Fecha")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Image)
+                    .HasColumnName("Imagen")
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
@@ -75,10 +93,17 @@ namespace SocialMedia.Infraestructure.Data
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("User");
+                entity.ToTable("Usuario");
                 entity.HasKey(e => e.UserId);
 
+                entity.Property(e => e.UserId)
+                    .HasColumnName("IdUsuario");
+
+                entity.Property(e => e.IsActive)
+                    .HasColumnName("Activo");
+
                 entity.Property(e => e.Lastname)
+                    .HasColumnName("Apellidos")
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -88,14 +113,18 @@ namespace SocialMedia.Infraestructure.Data
                     .HasMaxLength(30)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Birthdate).HasColumnType("date");
+                entity.Property(e => e.Birthdate)
+                    .HasColumnName("FechaNacimiento")
+                    .HasColumnType("date");
 
                 entity.Property(e => e.Firstname)
+                    .HasColumnName("Nombres")
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PhoneNumber)
+                    .HasColumnName("Telefono")
                     .HasMaxLength(10)
                     .IsUnicode(false);
             });
