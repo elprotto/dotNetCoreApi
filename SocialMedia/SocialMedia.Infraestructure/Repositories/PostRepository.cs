@@ -3,6 +3,7 @@ using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infraestructure.Data;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Infraestructure.Repositories
@@ -20,6 +21,13 @@ namespace SocialMedia.Infraestructure.Repositories
 
             return post;
             
+        }
+        public async Task<Post> GetPost(int id)
+        {
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.UserId == id);
+
+            return post;
+
         }
     }
 }
