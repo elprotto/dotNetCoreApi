@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
 using SocialMedia.Core.DTOs;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialMedia.API.Controllers
@@ -41,6 +39,11 @@ namespace SocialMedia.API.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertPost(PostDto postDto)
         {
+            // Global filter replace this
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
             var post = _mapper.Map<Post>(postDto);
             await _postRepository.InsertPost(post);
             return Ok(post);
