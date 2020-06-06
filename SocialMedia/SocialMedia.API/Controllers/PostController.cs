@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia.API.Responses;
 using SocialMedia.Core.DTOs;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
@@ -25,7 +26,8 @@ namespace SocialMedia.API.Controllers
         {
             var posts = await _postRepository.GetPosts();
             var postDto = _mapper.Map<IEnumerable<PostDto>>(posts);
-            return Ok(postDto);
+            var response = new ApiResponse<IEnumerable<PostDto>>(postDto);
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -33,7 +35,8 @@ namespace SocialMedia.API.Controllers
         {
             var post = await _postRepository.GetPost(id);
             var postDto = _mapper.Map<PostDto>(post);
-            return Ok(postDto);
+            var response = new ApiResponse<PostDto>(postDto);
+            return Ok(response);
         }
 
         [HttpPost]
@@ -46,7 +49,10 @@ namespace SocialMedia.API.Controllers
             //}
             var post = _mapper.Map<Post>(postDto);
             await _postRepository.InsertPost(post);
-            return Ok(post);
+
+            postDto = _mapper.Map<PostDto>(post);
+            var response = new ApiResponse<PostDto>(postDto);
+            return Ok(response);
         }
 
         [HttpPut]
@@ -55,8 +61,9 @@ namespace SocialMedia.API.Controllers
             var currentPost = _mapper.Map<Post>(postDto);
             currentPost.PostId = id;
 
-            await _postRepository.UpdatePost(currentPost);
-            return Ok(postDto);
+            var result = await _postRepository.UpdatePost(currentPost);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
 
         }
 
@@ -65,7 +72,8 @@ namespace SocialMedia.API.Controllers
         {
 
             var result = await _postRepository.DeletePost(id);
-            return Ok(result);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
         }
     }
 }
