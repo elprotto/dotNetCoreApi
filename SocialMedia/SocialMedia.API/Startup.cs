@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infraestructure.Data;
 using SocialMedia.Infraestructure.Repositories;
+using System;
 
 namespace SocialMedia.API
 {
@@ -23,6 +25,8 @@ namespace SocialMedia.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             //Connection string linked to dbContext
             services.AddDbContext<SocialMediaContext>(
