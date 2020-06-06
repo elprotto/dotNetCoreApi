@@ -3,7 +3,6 @@ using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infraestructure.Data;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Infraestructure.Repositories
@@ -29,11 +28,32 @@ namespace SocialMedia.Infraestructure.Repositories
             return post;
 
         }
-
         public async Task InsertPost(Post post)
         {
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> UpdatePost(Post post)
+        {
+            var currentPost = await GetPost(post.PostId);
+            currentPost.Date = post.Date;
+            currentPost.Description = post.Description;
+            currentPost.Image = post.Image;
+
+            int rows = await _context.SaveChangesAsync();
+
+            return rows > 0;
+        }
+
+        public async Task<bool> DeletePost(int id)
+        {
+            var currentPost = await GetPost(id);
+            _context.Posts.Remove(currentPost);
+
+            int rows = await _context.SaveChangesAsync();
+
+            return rows > 0;
         }
     }
 }
