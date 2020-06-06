@@ -33,7 +33,7 @@ namespace SocialMedia.API
                     }
                 )
                 .ConfigureApiBehaviorOptions(options => {
-                    options.SuppressModelStateInvalidFilter = true;
+                    //options.SuppressModelStateInvalidFilter = true;
                 });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
