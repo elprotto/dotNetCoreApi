@@ -10,9 +10,11 @@ namespace SocialMedia.Core.Services
 {
     public class PostService : IPostService
     {
-        private readonly IPostRepository _postRepository;
-        private readonly IUserRepository _userRepository;
-        public PostService(IPostRepository postRepository, IUserRepository userRepository)
+        //private readonly IPostRepository _postRepository;
+        //private readonly IUserRepository _userRepository;
+        private readonly IRepository<Post> _postRepository;
+        private readonly IRepository<User> _userRepository;
+        public PostService(IRepository<Post> postRepository, IRepository<User> userRepository)
         {
             _postRepository = postRepository;
             _userRepository = userRepository;
@@ -20,23 +22,24 @@ namespace SocialMedia.Core.Services
 
         public async Task<bool> DeletePost(int id)
         {
-            return await _postRepository.DeletePost(id);
+            await _postRepository.Delete(id);
+            return true;
         }
 
         public async Task<Post> GetPost(int id)
         {
 
-            return await _postRepository.GetPost(id);
+            return await _postRepository.GetById(id);
         }
 
         public async  Task<IEnumerable<Post>> GetPosts()
         {
-            return await _postRepository.GetPosts();
+            return await _postRepository.GetAll();
         }
 
         public async Task InsertPost(Post post)
         {
-            var user = await _userRepository.GetUser(post.PostId);
+            var user = await _userRepository.GetById(post.UserId);
             //First Businnes Rule Validation
             if (user == null)
             {
@@ -47,12 +50,13 @@ namespace SocialMedia.Core.Services
             {
                 throw new Exception("Content not Allowed");
             }
-            await _postRepository.InsertPost(post);
+            await _postRepository.Add(post);
         }
 
         public async Task<bool> UpdatePost(Post post)
         {
-            return await _postRepository.UpdatePost(post);
+            await _postRepository.Update(post);
+            return true;
         }
     }
 }

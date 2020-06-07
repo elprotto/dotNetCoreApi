@@ -24,7 +24,7 @@ namespace SocialMedia.Core.Interfaces
 
         public async Task<User> GetUser(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == id);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
             return user;
         }
     }

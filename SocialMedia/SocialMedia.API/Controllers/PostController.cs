@@ -59,7 +59,7 @@ namespace SocialMedia.API.Controllers
         public async Task<IActionResult> UpdatePost(int id, PostDto postDto)
         {
             var currentPost = _mapper.Map<Post>(postDto);
-            currentPost.PostId = id;
+            currentPost.Id = id;
 
             var result = await _postService.UpdatePost(currentPost);
             var response = new ApiResponse<bool>(result);
